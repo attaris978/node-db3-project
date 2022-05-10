@@ -29,7 +29,7 @@ async function find() { // EXERCISE A
 
 async function getSchemeName(scheme_id) {
   const name = await db('schemes as sc')
- .select('sc.scheme_name')
+ .select('sc.scheme_name') 
  .where('sc.scheme_id', scheme_id)
  return name;
 }
@@ -180,6 +180,16 @@ async function add(scheme) { // EXERCISE D
   /*
     1D- This function creates a new scheme and resolves to _the newly created scheme_.
   */
+ console.log(scheme);
+
+ const newSchemeId = await db('schemes').insert(scheme);
+ console.log(newSchemeId);
+ const newScheme = await getSchemeName(newSchemeId[0])
+return {
+  scheme_id: newSchemeId[0],
+  scheme_name: newScheme[0].scheme_name
+}
+ 
 }
 
 async function addStep(scheme_id, step) { // EXERCISE E
