@@ -27,7 +27,7 @@ async function find() { // EXERCISE A
  
 }
 
-function findById(scheme_id) { // EXERCISE B
+async function findById(scheme_id) { // EXERCISE B
   /*
     1B- Study the SQL query below running it in SQLite Studio against `data/schemes.db3`:
 
@@ -38,9 +38,16 @@ function findById(scheme_id) { // EXERCISE B
       LEFT JOIN steps as st
           ON sc.scheme_id = st.scheme_id
       WHERE sc.scheme_id = 1
-      ORDER BY st.step_number ASC;
+      ORDER BY st.step_number ASC; */
+const rows = await db('schemes as sc')
+ .leftJoin('steps as st', 'sc.scheme_id', 'st.scheme_id')
+ .select('st.*', 'sc.scheme_name')
+ .where('sc.scheme_id', scheme_id)
+ .orderBy('st.step_number')
 
-    2B- When you have a grasp on the query go ahead and build it in Knex
+ return rows
+ 
+    /*2B- When you have a grasp on the query go ahead and build it in Knex
     making it parametric: instead of a literal `1` you should use `scheme_id`.
 
     3B- Test in Postman and see that the resulting data does not look like a scheme,
