@@ -27,6 +27,13 @@ async function find() { // EXERCISE A
  
 }
 
+async function getSchemeName(scheme_id) {
+  const name = await db('schemes as sc')
+ .select('sc.scheme_name')
+ .where('sc.scheme_id', scheme_id)
+ return name;
+}
+
 async function findById(scheme_id) { // EXERCISE B
   /*
     1B- Study the SQL query below running it in SQLite Studio against `data/schemes.db3`:
@@ -161,6 +168,7 @@ function addStep(scheme_id, step) { // EXERCISE E
 
 module.exports = {
   find,
+  getSchemeName,
   findById,
   findSteps,
   add,

@@ -1,3 +1,5 @@
+const {getSchemeName} = require('../schemes/scheme-model');
+
 /*
   If `scheme_id` does not exist in the database:
 
@@ -7,6 +9,12 @@
   }
 */
 const checkSchemeId = (req, res, next) => {
+  getSchemeName(req.params.scheme_id)
+  .then( name => {
+    name.length === 0 ?  
+    res.status(404).json({message: "No scheme with that ID exists. Keep on scheming."}) :
+    next()
+  })
 
 }
 

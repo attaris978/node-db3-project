@@ -31,6 +31,9 @@ router.get('/', (req, res, next) => {
     .catch(next)
 })
 
+
+
+
 /*
   [GET] /api/schemes/2
 
@@ -52,7 +55,7 @@ router.get('/', (req, res, next) => {
     ]
   }
 */
-router.get('/:scheme_id',/* checkSchemeId,*/ (req, res, next) => {
+router.get('/:scheme_id', checkSchemeId, (req, res, next) => {
   const { scheme_id } = req.params
 
   Schemes.findById(scheme_id)
