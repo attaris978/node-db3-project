@@ -12,7 +12,7 @@ const checkSchemeId = (req, res, next) => {
   getSchemeName(req.params.scheme_id)
   .then( name => {
     name.length === 0 ?  
-    res.status(404).json({message: "No scheme with that ID exists. Keep on scheming."}) :
+    res.status(404).json({message: `scheme with scheme_id ${req.params.scheme_id}  not found`}) :
     next()
   })
 
@@ -27,7 +27,10 @@ const checkSchemeId = (req, res, next) => {
   }
 */
 const validateScheme = (req, res, next) => {
-
+  const {scheme_name: name} = req.body
+  !name || typeof name !== 'string' ? 
+    res.status(400).json({message: "invalid scheme_name"}) :
+    next()
 }
 
 /*
@@ -40,7 +43,11 @@ const validateScheme = (req, res, next) => {
   }
 */
 const validateStep = (req, res, next) => {
-
+  const {step_number : step, instructions} = req.body
+  !instructions || typeof instructions !== 'string'
+  || step < 1 || typeof step !== 'number' ? 
+    res.status(400).json({message: "invalid step"}) :
+    next()
 }
 
 module.exports = {
