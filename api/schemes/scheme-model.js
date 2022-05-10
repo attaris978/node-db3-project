@@ -45,7 +45,10 @@ const rows = await db('schemes as sc')
  .where('sc.scheme_id', scheme_id)
  .orderBy('st.step_number')
 
- return rows
+ const name = await db('schemes as sc')
+ .select('sc.scheme_name')
+ .where('sc.scheme_id', scheme_id)
+ 
  
     /*2B- When you have a grasp on the query go ahead and build it in Knex
     making it parametric: instead of a literal `1` you should use `scheme_id`.
@@ -91,7 +94,24 @@ const rows = await db('schemes as sc')
           // etc
         ]
       }
+*/
+const rowsMap = rows.map(step => {
+  const {step_id, step_number, instructions} = step;
+  return {
+    step_id,
+    step_number,
+    instructions
+  }})
+  console.log(rowsMap);
 
+  return {
+    "scheme_id": scheme_id,
+    "scheme_name": name[0].scheme_name,
+    "steps":  rowsMap[0].step_id === null ? [] : rowsMap
+  }
+
+  
+/*
     5B- This is what the result should look like _if there are no steps_ for a `scheme_id`:
 
       {
